@@ -38,6 +38,7 @@ class BuffonSimulation {
         this.floor = []
         this.listOfNeedleObjects = []
         this.numberOfIntersections = 0
+
     }
 
     toosNeedles(this) {
