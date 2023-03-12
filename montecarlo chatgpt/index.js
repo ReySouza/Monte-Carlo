@@ -2,51 +2,45 @@ const needleLength = 0.25;
 const lineWidth = 0.1;
 const lineDistance = 0.5;
 const numPoints = 1000;
-const numLines = 2;
+const numLines = 3;
 
 // Define the distance between the lines
 const gridSpacing = needleLength + lineDistance;
 
 // Define the positions of the lines
-const linePositions = [];
+const linePositions = new Array(numLines);
+const lineSpacing = gridSpacing / numLines;
 for (let i = 0; i < numLines; i++) {
-  const position = i * gridSpacing / numLines;
-  linePositions.push(position);
+  linePositions[i] = i * lineSpacing;
 }
 
 // Define the function to generate the points
 function generatePoints(numPoints) {
-  let x = [];
-  let y = [];
-  for (let i = 0; i < numPoints; i++) {
-    x.push(Math.random() * gridSpacing);
-    y.push(Math.random() * gridSpacing);
-  }
+  const x = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
+  const y = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
   return { x, y };
 }
 
 // Define the function to count how many needles cross the lines
 function countCrossings(x, y) {
-  let numCrossings = 0;
-  let colors = [];
-  let xs = [];
-  let ys = [];
-  for (let i = 0; i < x.length; i++) {
-    let crossing = false;
-    for (let j = 0; j < numLines; j++) {
-      const lineStart = linePositions[j];
+  const { numCrossings, colors, xs, ys } = x.reduce(({ numCrossings, colors, xs, ys }, _, i) => {
+    const crossing = linePositions.some((lineStart) => {
       const lineEnd = lineStart + needleLength;
-      if (y[i] >= lineStart && y[i] <= lineEnd) {
-        crossing = true;
-        break;
-      }
-    }
+      return y[i] >= lineStart && y[i] <= lineEnd;
+    });
     if (crossing) {
-      numCrossings++;
       colors.push("red");
+      numCrossings++;
     } else {
       colors.push("green");
     }
+    xs.push(x[i], x[i] + (needleLength / 2) * Math.sin(Math.PI * y[i] / gridSpacing));
+    ys.push(y[i], y[i] + (needleLength / 2) * Math.cos(Math.PI * y[i] / gridSpacing));
+    return { numCrossings, colors, xs, ys };
+  }, { numCrossings: 0, colors: [], xs: [], ys: [] });
+  return { numCrossings, colors, xs, ys };
+}
+
     // Define the position and orientation of the needle
     xs.push(x[i], x[i] + (needleLength / 2) * Math.sin(Math.PI * y[i] / gridSpacing));
     ys.push(y[i], y[i] + (needleLength / 2) * Math.cos(Math.PI * y[i] / gridSpacing));
