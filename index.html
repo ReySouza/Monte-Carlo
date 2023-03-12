@@ -14,7 +14,6 @@
   <p id="result"></p>
 
   <script>
-    // Define the layout for the plot
     const layout = {
       xaxis: { range: [0, 1] },
       yaxis: { range: [0, 10], scaleanchor: "x" },
@@ -23,13 +22,10 @@
       margin: { l: 50, r: 50, b: 50, t: 50 }
     };
 
-    // Create a new BuffonSimulation object
     const buffonSimulation = new BuffonSimulation(10);
 
-    // Plot the floor boards
     buffonSimulation.plotFloorBoards('buffon');
 
-    // Define the function to run the simulation and update the result
     function runSimulation() {
       const estimatedPi = buffonSimulation.run(100000);
       document.getElementById('result').innerHTML = `Estimated value of pi: ${estimatedPi}`;
