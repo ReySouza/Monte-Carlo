@@ -37,6 +37,9 @@ class BuffonSimulation {
     this.floor = [];
     this.listOfNeedleObjects = [];
     this.numberOfIntersections = 0;
+
+    fig = document.querySelector('.grafico')
+   
   }
 
   tossNeedle() {

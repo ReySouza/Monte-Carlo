@@ -1,6 +1,6 @@
-"""
-Este código é uma simulação do experimento das agulhas de Georges-Louis Leclerc, o intuito do experimento é determinar a probabilidade de que uma agulha, ao ser derrubada no chão ao acaso, atravesse o vão entre duas tábuas de madeira
-"""
+# """
+# Este código é uma simulação do experimento das agulhas de Georges-Louis Leclerc, o intuito do experimento é determinar a probabilidade de que uma agulha, ao ser derrubada no chão ao acaso, atravesse o vão entre duas tábuas de madeira
+# """
 
 # matplotlib é a biblioteca que permite a construção de gráficos e figuras
 import matplotlib.pyplot as plt
@@ -17,15 +17,15 @@ AGULHAS = 10000
 
 class DefineNeedle:
 
-"""
-Uma classe para representar as agulhas, esta classe possui 6 atributos.
-X, Y que representam as coordenadas do centro da agulha
-theta (θ) que representa o ângulo entre a agulha e o eixo x, em radianos
-length (L) que representa o comprimento da agulha
-needle_coordinates é um array que representa as coordenadas (x,y)
-complex_representation é outro array para representar a agulha como um número complexo
-end_points é outro array que representa as duas pontas da agulha como (L/2*cos(θ), L/2*sin(θ)
-"""
+# """
+# Uma classe para representar as agulhas, esta classe possui 6 atributos.
+# X, Y que representam as coordenadas do centro da agulha
+# theta (θ) que representa o ângulo entre a agulha e o eixo x, em radianos
+# length (L) que representa o comprimento da agulha
+# needle_coordinates é um array que representa as coordenadas (x,y)
+# complex_representation é outro array para representar a agulha como um número complexo
+# end_points é outro array que representa as duas pontas da agulha como (L/2*cos(θ), L/2*sin(θ)
+# """
     def __init__(self, x=None, y=None, theta=None, length=0.5):
 
 
@@ -36,9 +36,9 @@ end_points é outro array que representa as duas pontas da agulha como (L/2*cos(
         if theta is None:
             theta = random.uniform(0, math.pi)
 
-"""
-Se os atributos x, y e theta não forem dados, eles serão definidos pela função random.uniform que gera um número pseudorrandômico entre 0 e 1 ou entre 0 e pi no caso do ângulo
-"""
+# """
+# Se os atributos x, y e theta não forem dados, eles serão definidos pela função random.uniform que gera um número pseudorrandômico entre 0 e 1 ou entre 0 e pi no caso do ângulo
+# """
 
         self.needle_coordinates = np.array([x, y])
         self.complex_representation = np.array(
@@ -50,19 +50,19 @@ Se os atributos x, y e theta não forem dados, eles serão definidos pela funç�
     def intersects_with_y(self, y):
         return self.end_points[0][1] < y and self.end_points[1][1] > y
 
-"""
-Checa se as agulhas intersectam o vão entre duas tábuas a partir de uma determinada coordenada Y. consideramos que a probabilidade da agulha intersectar o chão é a mesma ao longo de todo o eixo X então iremos ignorar ele
-"""
+# """
+# Checa se as agulhas intersectam o vão entre duas tábuas a partir de uma determinada coordenada Y. consideramos que a probabilidade da agulha intersectar o chão é a mesma ao longo de todo o eixo X então iremos ignorar ele
+# """
 
 class BuffonSimulation:
 
-"""
-Uma classe que representa a simulação em si, ela tem 4 atributos
-floor é a lista de coordenadas y dos vãos entre as tábuas
-boards é o número de vãos que irão aparecer na simulação
-list_of_needle_objects é o número de agulhas que serão jogados, é igual a variável AGULHAS
-number_of_intersections é o número de interseções
-"""
+# """
+# Uma classe que representa a simulação em si, ela tem 4 atributos
+# floor é a lista de coordenadas y dos vãos entre as tábuas
+# boards é o número de vãos que irão aparecer na simulação
+# list_of_needle_objects é o número de agulhas que serão jogados, é igual a variável AGULHAS
+# number_of_intersections é o número de interseções
+# """
     def __init__(self):
         self.floor = []
         self.boards = 2
@@ -99,9 +99,9 @@ number_of_intersections é o número de interseções
         self.buffon.plot(x_coordinates, y_coordinates,
                          color='red', linewidth=1)
 
-"""
-Arremessamos uma agulha e checamos se ela atravessou alguma das tábuas, se ela atravessou então o número de intersecções aumenta em 1 e a agulha é então plotada em verde, se ela não atravessa nenhuma tábua, então ela é colorida em vermelho
-"""
+# """
+# Arremessamos uma agulha e checamos se ela atravessou alguma das tábuas, se ela atravessou então o número de intersecções aumenta em 1 e a agulha é então plotada em verde, se ela não atravessa nenhuma tábua, então ela é colorida em vermelho
+# """
 
     def estimate_pi(self, needles_tossed=0):
         if self.number_of_intersections == 0:
@@ -114,9 +114,9 @@ Arremessamos uma agulha e checamos se ela atravessou alguma das tábuas, se ela 
                 "\n Agulhas: " + str(needles_tossed) +
                 "\n Aproximação de Pi: " + str(estimated_pi))
 
-"""
-Podemos estimar o valor de pi usando este experimento dividindo a quantidade de agulhas jogadas ao todo pela quantidade de intersecções. Este processo é uma aplicação clássica da estatística e gera uma aproximação para Pi
-"""
+# """
+# Podemos estimar o valor de pi usando este experimento dividindo a quantidade de agulhas jogadas ao todo pela quantidade de intersecções. Este processo é uma aplicação clássica da estatística e gera uma aproximação para Pi
+# """
 
     def plot_needles(self):
         for needle in range(AGULHAS):
@@ -126,9 +126,9 @@ Podemos estimar o valor de pi usando este experimento dividindo a quantidade de 
                 plt.pause(1/200)
         plt.title("Estimando Pi com probabilidade")
 
-"""
-Esta função chama a função toss_needles um número de vezes igual ao definido pela variável AGULHAS. Depois de cada arremesso, ela atualiza a aproximação de pi chamando a função estimate_pi, se o número de agulhas é um multiplo de 200, a função pausa por um tempo
-"""
+# """
+# Esta função chama a função toss_needles um número de vezes igual ao definido pela variável AGULHAS. Depois de cada arremesso, ela atualiza a aproximação de pi chamando a função estimate_pi, se o número de agulhas é um multiplo de 200, a função pausa por um tempo
+# """
 
     def plot(self):
         self.plot_floor_boards()
@@ -139,6 +139,6 @@ Esta função chama a função toss_needles um número de vezes igual ao definid
 simulation = BuffonSimulation()
 simulation.plot()
 
-"""
-Por fim, chamamos o matplotlib para plotar as tábuas, as agulhas e mostrar as informações calculadas nas funções anteriores
-"""
+# """
+# Por fim, chamamos o matplotlib para plotar as tábuas, as agulhas e mostrar as informações calculadas nas funções anteriores
+# """
