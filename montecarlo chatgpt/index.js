@@ -5,7 +5,7 @@ const numPoints = 1000;
 const numLines = 3;
 
 // Define the distance between the lines
-const gridSpacing = needleLength + lineDistance;
+const gridSpacing = needleLength + (lineDistance * (numLines - 1));
 
 // Define the positions of the lines
 const linePositions = new Array(numLines);
