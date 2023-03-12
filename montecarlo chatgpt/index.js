@@ -44,7 +44,7 @@ function countCrossings(x, y) {
     // Define the position and orientation of the needle
     xs.push(x[i], x[i] + (needleLength / 2) * Math.sin(Math.PI * y[i] / gridSpacing));
     ys.push(y[i], y[i] + (needleLength / 2) * Math.cos(Math.PI * y[i] / gridSpacing));
-  }
+
   return { numCrossings, colors, xs, ys };
 }
 
