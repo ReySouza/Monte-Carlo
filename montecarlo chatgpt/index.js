@@ -1,6 +1,6 @@
 const needleLength = 0.25;
-const lineWidth = 0.1;
-const lineDistance = 0.5;
+const lineWidth = 0.3;
+const lineDistance = 1;
 const numPoints = 1000;
 const numLines = 3;
 
@@ -58,7 +58,7 @@ const lineData = linePositions.map((position) => {
     x: [0, gridSpacing],
     y: [position, position],
     mode: "lines",
-    line: { width: lineWidth, color: "black" },
+    line: { width: lineWidth, color: "rgba(0, 0, 0, 0.5)" },
     type: "scatter"
   };
 });
