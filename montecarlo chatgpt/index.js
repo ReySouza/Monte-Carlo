@@ -37,7 +37,7 @@ function countCrossings(x, y) {
 const points = generatePoints(numPoints);
 const { numCrossings, colors, xs, ys } = countCrossings(points.x, points.y);
 
-const piEstimate = (2 * numPoints) / (numCrossings * needleLength);
+const piEstimate = (2 * needleLength * numPoints) / (numCrossings * lineDistance);
 
 const lineTrace = {
   x: [0, gridSpacing],
