@@ -138,20 +138,3 @@ btnSimulate.addEventListener('click', (e)=> {
   e.preventDefault()
   runSimulation()
 })
-
-const data = [
-    {
-        x: xCoordinates,
-        y: yCoordinates,
-        mode: "markers",
-        marker: { size: 5, color: colors },
-        type: "scatter",
-    },
-];
-const layout = {
-    title: `Estimativa de pi: ${estimatedPi}`,
-    xaxis: { range: [0, boardSpacing] },
-    yaxis: { range: [0, boardSpacing] },
-};
-Plotly.newPlot("grafico", data, layout);
-
