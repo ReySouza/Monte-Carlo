@@ -10,8 +10,9 @@ const gridSpacing = needleLength + lineDistance;
 function generatePoints(numPoints) {
     let x = [];
     let y = [];
+    const halfSpacing = gridSpacing / 2;
     for (let i = 0; i < numPoints; i++) {
-        x.push(Math.random() * gridSpacing);
+        x.push(halfSpacing + (Math.random() - 0.5) * gridSpacing);
         y.push(Math.random() * gridSpacing);
     }
     return { x, y };
