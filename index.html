@@ -5,31 +5,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Montecarlo</title>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <script src="MonteCarlov2.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="MonteCarlov2.js"></script>
 </head>
 <body>
     <div id="buffon"></div>
-  <button onclick="runSimulation()">Executar Simulação</button>
-  <p id="result"></p>
+    <button onclick="runSimulation()">Executar Simulação</button>
+    <p id="result"></p>
 
-  <script>
-    const layout = {
-      xaxis: { range: [0, 1] },
-      yaxis: { range: [0, 10], scaleanchor: "x" },
-      width: 800,
-      height: 400,
-      margin: { l: 50, r: 50, b: 50, t: 50 }
-    };
+    <script>
+        let buffonSimulation;
 
-    const buffonSimulation = new BuffonSimulation(10);
+        const layout = {
+            xaxis: { range: [0, 1] },
+            yaxis: { range: [0, 10], scaleanchor: "x" },
+            width: 800,
+            height: 400,
+            margin: { l: 50, r: 50, b: 50, t: 50 }
+        };
 
-    buffonSimulation.plotFloorBoards('buffon');
+        function setup() {
+            buffonSimulation = new BuffonSimulation(10);
+            buffonSimulation.plotFloorBoards('buffon');
+        }
 
-    function runSimulation() {
-      const estimatedPi = buffonSimulation.run(100000);
-      document.getElementById('result').innerHTML = `Estimated value of pi: ${estimatedPi}`;
-    }
-  </script>
+        function runSimulation() {
+            const estimatedPi = buffonSimulation.run(100000);
+            document.getElementById('result').innerHTML = `Estimated value of pi: ${estimatedPi}`;
+        }
+
+        window.addEventListener('DOMContentLoaded', setup);
+    </script>
 </body>
 </html>
