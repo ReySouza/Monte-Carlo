@@ -1,11 +1,12 @@
 const needleLength = 0.25;
 const lineWidth = 0.1;
 const lineDistance = 0.5;
+const numPoints = 1000; // <-- set the number of needles here
 
 // Define the distance between the lines
 const gridSpacing = needleLength + lineDistance;
 
-// Define the function to generate points
+// Define the function to generate the points
 function generatePoints(numPoints) {
     let x = [];
     let y = [];
@@ -20,7 +21,8 @@ function generatePoints(numPoints) {
 function countCrossings(x, y) {
     let numCrossings = 0;
     let colors = [];
-    let lines = [];
+    let xs = [];
+    let ys = [];
     for (let i = 0; i < x.length; i++) {
         let crossing = y[i] < needleLength / 2 || y[i] > gridSpacing - needleLength / 2;
         if (crossing) {
@@ -29,37 +31,36 @@ function countCrossings(x, y) {
         } else {
             colors.push("green");
         }
-        // Define the position and orientation of the needle
-        let angle = Math.PI * y[i] / gridSpacing;
-        let x1 = x[i] - (needleLength / 2) * Math.sin(angle);
-        let y1 = y[i] - (needleLength / 2) * Math.cos(angle);
-        let x2 = x[i] + (needleLength / 2) * Math.sin(angle);
-        let y2 = y[i] + (needleLength / 2) * Math.cos(angle);
-        lines.push({ x: [x1, x2], y: [y1, y2] });
+        // define position and orientation of the needle
+        xs.push(x[i] - (needleLength / 2) * Math.sin(Math.PI * y[i] / gridSpacing));
+        xs.push(x[i] + (needleLength / 2) * Math.sin(Math.PI * y[i] / gridSpacing));
+        xs.push(null);
+        ys.push(y[i] + (needleLength / 2) * Math.cos(Math.PI * y[i] / gridSpacing));
+        ys.push(y[i] - (needleLength / 2) * Math.cos(Math.PI * y[i] / gridSpacing));
+        ys.push(null);
     }
-    return { numCrossings, colors, lines };
+    return { numCrossings, colors, xs, ys };
 }
 
 // Generate the random points and count how many needles cross the lines
-const numPoints = 100;
 const points = generatePoints(numPoints);
-const { numCrossings, colors, lines } = countCrossings(points.x, points.y);
+const { numCrossings, colors, xs, ys } = countCrossings(points.x, points.y);
 
 // Calculate the estimate for pi
 const piEstimate = (2 * numPoints) / (numCrossings * needleLength);
 
-// Create the plot with the estimate for pi and different colors for the needles that cross the lines and those that do not
+// Create the plot with the estimate for pi and different colors for needles that cross or don't cross the lines
 const data = [
     {
-        type: "scatter",
+        x: xs,
+        y: ys,
         mode: "lines",
         line: { width: lineWidth, color: colors },
-        x: lines.map(line => line.x),
-        y: lines.map(line => line.y),
+        type: "scatter",
     },
 ];
 const layout = {
-    title: `Estimate for pi: ${piEstimate}`,
+    title: `Estimate of pi: ${piEstimate}`,
     xaxis: { range: [0, gridSpacing] },
     yaxis: { range: [0, gridSpacing] },
 };
