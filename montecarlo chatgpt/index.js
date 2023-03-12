@@ -23,28 +23,25 @@ function generatePoints(numPoints) {
 
 // Define the function to count how many needles cross the lines
 function countCrossings(x, y) {
-  const { numCrossings, colors, xs, ys } = x.reduce(({ numCrossings, colors, xs, ys }, _, i) => {
-    const crossing = linePositions.some((lineStart) => {
-      const lineEnd = lineStart + needleLength;
-      return y[i] >= lineStart && y[i] <= lineEnd;
-    });
-    if (crossing) {
-      colors.push("red");
-      numCrossings++;
-    } else {
-      colors.push("green");
-    }
-    xs.push(x[i], x[i] + (needleLength / 2) * Math.sin(Math.PI * y[i] / gridSpacing));
-    ys.push(y[i], y[i] + (needleLength / 2) * Math.cos(Math.PI * y[i] / gridSpacing));
-    return { numCrossings, colors, xs, ys };
-  }, { numCrossings: 0, colors: [], xs: [], ys: [] });
-  return { numCrossings, colors, xs, ys };
-}
-
-    // Define the position and orientation of the needle
-    xs.push(x[i], x[i] + (needleLength / 2) * Math.sin(Math.PI * y[i] / gridSpacing));
-    ys.push(y[i], y[i] + (needleLength / 2) * Math.cos(Math.PI * y[i] / gridSpacing));
-
+  const { numCrossings, colors, xs, ys } = x.reduce(
+    ({ numCrossings, colors, xs, ys }, _, i) => {
+      const crossing = linePositions.some((lineStart) => {
+        const lineEnd = lineStart + needleLength;
+        return y[i] >= lineStart && y[i] <= lineEnd;
+      });
+      if (crossing) {
+        colors.push("red");
+        numCrossings++;
+      } else {
+        colors.push("green");
+      }
+      xs.push(x[i], x[i] + (needleLength / 2) * Math.sin(Math.PI * y[i] / gridSpacing));
+      ys.push(y[i], y[i] + (needleLength / 2) * Math.cos(Math.PI * y[i] / gridSpacing));
+      return { numCrossings, colors, xs, ys };
+    },
+    { numCrossings: 0, colors: [], xs: [], ys: [] }
+  );
+  // Return the object with the properties numCrossings, colors, xs, and ys
   return { numCrossings, colors, xs, ys };
 }
 
