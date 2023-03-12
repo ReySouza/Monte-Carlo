@@ -115,7 +115,9 @@ class BuffonSimulation {
   }
 }
 
-const buffonSimulation = new BuffonSimulation(10);
-buffonSimulation.plotFloorBoards('buffon');
-const estimatedPi = buffonSimulation.run(100000);
-console.log(estimatedPi);
+function runSimulation() {
+	const buffonSimulation = new BuffonSimulation(10);
+	buffonSimulation.plotFloorBoards('simulation');
+	const estimatedPi = buffonSimulation.run(100000);
+	document.getElementById('results').innerHTML = `Estimated value of Pi: ${estimatedPi}`;
+}
