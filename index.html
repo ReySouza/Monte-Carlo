@@ -4,9 +4,36 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Montacarlo</title>
+    <title>Montecarlo</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="buffon_simulation.js"></script>
 </head>
 <body>
-    <h1>Olá mundo</h1>
+  <div id="buffon"></div>
+  <button onclick="runSimulation()">Run Simulation</button>
+  <p id="result"></p>
+
+  <script>
+    // Define the layout for the plot
+    const layout = {
+      xaxis: { range: [0, 1] },
+      yaxis: { range: [0, 10], scaleanchor: "x" },
+      width: 800,
+      height: 400,
+      margin: { l: 50, r: 50, b: 50, t: 50 }
+    };
+
+    // Create a new BuffonSimulation object
+    const buffonSimulation = new BuffonSimulation(10);
+
+    // Plot the floor boards
+    buffonSimulation.plotFloorBoards('buffon');
+
+    // Define the function to run the simulation and update the result
+    function runSimulation() {
+      const estimatedPi = buffonSimulation.run(100000);
+      document.getElementById('result').innerHTML = `Estimated value of pi: ${estimatedPi}`;
+    }
+  </script>
 </body>
 </html>
