@@ -9,32 +9,13 @@
     <script src="MonteCarlov2.js"></script>
 </head>
 <body>
-    <div id="buffon"></div>
-    <button onclick="runSimulation()">Executar Simulação</button>
-    <p id="result"></p>
+  <div id="plot"></div>
+  <script>
 
-    <script>
-        let buffonSimulation;
-
-        const layout = {
-            xaxis: { range: [0, 1] },
-            yaxis: { range: [0, 10], scaleanchor: "x" },
-            width: 800,
-            height: 400,
-            margin: { l: 50, r: 50, b: 50, t: 50 }
-        };
-
-        function setup() {
-            buffonSimulation = new BuffonSimulation(10);
-            buffonSimulation.plotFloorBoards('buffon');
-        }
-
-        function runSimulation() {
-            const estimatedPi = buffonSimulation.run(100000);
-            document.getElementById('result').innerHTML = `Estimated value of pi: ${estimatedPi}`;
-        }
-
-        window.addEventListener('DOMContentLoaded', setup);
-    </script>
+	<h1>Monte Carlo Simulation</h1>
+	<div id="simulation"></div>
+	<button onclick="runSimulation()">Run Simulation</button>
+	<div id="results"></div>
+  </script>
 </body>
 </html>
