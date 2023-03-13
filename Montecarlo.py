@@ -24,7 +24,7 @@ class DefineNeedle:
 # length (L) que representa o comprimento da agulha
 # needle_coordinates é um array que representa as coordenadas (x,y)
 # complex_representation é outro array para representar a agulha como um número complexo
-# end_points é outro array que representa as duas pontas da agulha como (L/2*cos(θ), L/2*sin(θ)
+# end_points é outro array que representa as duas pontas da agulha como (L/2*cos(θ), L/2*sin(θ))
 # """
     def __init__(self, x=None, y=None, theta=None, length=0.5):
 
