@@ -17,14 +17,12 @@ function generatePoints(numPoints) {
   const x = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
   const y = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
   const angle = Array.from({ length: numPoints }, () => Math.random() * Math.PI);
-  return { x, y, angle };
+  return { x, y};
 }
 
 function countCrossings(x, y) {
   const { numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices } = x.reduce(
     ({ numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices }, _, i) => {
-      const cosAngle = Math.cos(angle[i]);
-      const sinAngle = Math.sin(angle[i]);
       const crossing = linePositions.some((lineStart) => {
         const lineEnd = lineStart + needleLength;
         return y[i] >= lineStart && y[i] <= lineEnd;
