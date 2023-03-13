@@ -16,7 +16,8 @@ for (let i = 0; i < numLines; i++) {
 function generatePoints(numPoints) {
   const x = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
   const y = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
-  return { x, y };
+  const angles = Array.from({ length: numPoints }, () => Math.random() * Math.PI);
+  return { x, y, angles };
 }
 
 // Define the function to count how many needles cross the lines
@@ -35,8 +36,8 @@ function countCrossings(x, y) {
         colors.push("green");
         nonCrossingIndices.push(i);
       }
-      xs.push(x[i], x[i] + (needleLength / 2) * Math.cos(Math.PI * y[i] / gridSpacing));
-      ys.push(y[i], y[i] + (needleLength / 2) * Math.sin(Math.PI * y[i] / gridSpacing));
+      xs.push(x[i], x[i] + (needleLength / 2) * Math.cos(angles[i]));
+      ys.push(y[i], y[i] + (needleLength / 2) * Math.sin(angles[i]));
       return { numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices };
     },
     { numCrossings: 0, colors: [], xs: [], ys: [], crossingIndices: [], nonCrossingIndices: [] }
@@ -62,24 +63,37 @@ const lineData = linePositions.map((position) => {
 });
 
 const crossingNeedleData = {
-  x: crossingIndices.map(i => xs[i]),
-  y: crossingIndices.map(i => ys[i]),
+  x: [],
+  y: [],
   mode: "lines",
   line: { width: lineWidth, color: "red" },
   type: "scatter",
-  marker: {color: colors}
+  marker: { color: [] }
 };
 
 const nonCrossingNeedleData = {
-  x: nonCrossingIndices.map(i => xs[i]),
-  y: nonCrossingIndices.map(i => ys[i]),
+  x: [],
+  y: [],
   mode: "lines",
   line: { width: lineWidth, color: "green" },
   type: "scatter",
-  marker: {color: colors}
+  marker: { color: [] }
 };
 
-const data = [...lineData, crossingNeedleData, nonCrossingNeedleData]; // Changed needleData to crossingNeedleData
+// Populate the needle data arrays
+crossingIndices.forEach((i) => {
+  crossingNeedleData.x.push(xs[i], xs[i] + (needleLength / 2) * Math.cos(Math.PI * ys[i] / gridSpacing), null);
+  crossingNeedleData.y.push(ys[i], ys[i] + (needleLength / 2) * Math.sin(Math.PI * ys[i] / gridSpacing), null);
+  crossingNeedleData.marker.color.push(colors[i], colors[i], null);
+});
+
+nonCrossingIndices.forEach((i) => {
+  nonCrossingNeedleData.x.push(xs[i], xs[i] + (needleLength / 2) * Math.cos(Math.PI * ys[i] / gridSpacing), null);
+  nonCrossingNeedleData.y.push(ys[i], ys[i] + (needleLength / 2) * Math.sin(Math.PI * ys[i] / gridSpacing), null);
+  nonCrossingNeedleData.marker.color.push(colors[i], colors[i], null);
+});
+
+const data = [...lineData, crossingNeedleData, nonCrossingNeedleData];
 
 // Define the layout for the plot
 const layout = {
