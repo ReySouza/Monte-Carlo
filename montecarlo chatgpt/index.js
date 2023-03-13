@@ -4,7 +4,7 @@ const numPoints = 1000;
 const numLines = 10;
 
 // Define the distance between the lines
-const gridSpacing = 100;
+const gridSpacing = 2;
 
 // Define the positions of the lines
 const linePositions = new Array(numLines);
@@ -13,7 +13,6 @@ for (let i = 0; i < numLines; i++) {
   linePositions[i] = i * lineSpacing;
 }
 
-function gaussian(mu, sigma) {
   const x = Math.random() * 2 - 1;
   const y = Math.random() * 2 - 1;
   const r = x * x + y * y;
