@@ -1,10 +1,10 @@
 const needleLength = 0.25;
 const lineWidth = 0.3;
-const numPoints = 1000;
+const numPoints = 10000;
 const numLines = 10;
 
 // Define the distance between the lines
-const gridSpacing = 2;
+const gridSpacing = 100;
 
 // Define the positions of the lines
 const linePositions = new Array(numLines);
@@ -13,15 +13,27 @@ for (let i = 0; i < numLines; i++) {
   linePositions[i] = i * lineSpacing;
 }
 
-function generatePoints(numPoints) {
-  const x = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
-  const y = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
-  const angle = Array.from({ length: numPoints }, () => Math.random() * Math.PI);
-  const cosAngle = angle.map(a => Math.cos(a));
-  const sinAngle = angle.map(a => Math.sin(a));
-  return { x, y, cosAngle, sinAngle };
+function gaussian(mu, sigma) {
+  const x = Math.random() * 2 - 1;
+  const y = Math.random() * 2 - 1;
+  const r = x * x + y * y;
+  if (r >= 1 || r === 0) {
+    return gaussian(mu, sigma);
+  }
+  const c = Math.sqrt((-2 * Math.log(r)) / r);
+  return mu + sigma * x * c;
 }
 
+function generatePoints(numPoints) {
+  const x = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
+  const y = Array.from({ length: numPoints }, () => {
+    const lineMaxY = Math.max(...linePositions);
+    return gaussian(lineMaxY / 2, lineMaxY / 6);
+  });
+  return { x, y };
+}
+
+// Define the function to count how many needles cross the lines
 function countCrossings(x, y) {
   const { numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices } = x.reduce(
     ({ numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices }, _, i) => {
@@ -37,8 +49,8 @@ function countCrossings(x, y) {
         colors.push("green");
         nonCrossingIndices.push(i);
       }
-      xs.push(x[i], x[i] + (needleLength / 2) * cosAngle);
-      ys.push(y[i], y[i] + (needleLength / 2) * sinAngle);
+      xs.push(x[i], x[i] + (needleLength / 2) * Math.cos(Math.PI * y[i] / gridSpacing));
+      ys.push(y[i], y[i] + (needleLength / 2) * Math.sin(Math.PI * y[i] / gridSpacing));
       return { numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices };
     },
     { numCrossings: 0, colors: [], xs: [], ys: [], crossingIndices: [], nonCrossingIndices: [] }
@@ -62,6 +74,7 @@ const lineData = linePositions.map((position) => {
     type: "scatter"
   };
 });
+
 const crossingNeedleData = {
   x: crossingIndices.map(i => xs[i]),
   y: crossingIndices.map(i => ys[i]),
