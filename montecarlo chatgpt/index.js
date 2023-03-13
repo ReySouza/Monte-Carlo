@@ -1,6 +1,6 @@
 const needleLength = 0.25;
 const lineWidth = 0.3;
-const lineDistance = 1;
+const lineDistance = 0.5;
 const numPoints = 100000;
 const numLines = 10;
 
@@ -14,20 +14,18 @@ for (let i = 0; i < numLines; i++) {
   linePositions[i] = i * lineSpacing;
 }
 
-function gaussian(mu, sigma) {
-  const x = Math.random() * 2 - 1;
-  const y = Math.random() * 2 - 1;
-  const r = x * x + y * y;
-  if (r >= 1 || r === 0) {
-    return gaussian(mu, sigma);
-  }
-  const c = Math.sqrt((-2 * Math.log(r)) / r);
-  return mu + sigma * x * c;
-}
-
 function generatePoints(numPoints) {
+  const maxY = Math.max(...linePositions);
   const x = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
-  const y = Array.from({ length: numPoints }, () => gaussian(gridSpacing / 2, gridSpacing / 6));
+  const y = Array.from({ length: numPoints }, () => {
+    const adjustedY = gaussian(maxY / 2, maxY / 6);
+    const minY = Math.min(...linePositions);
+    const maxY = Math.max(...linePositions);
+    if (adjustedY < minY || adjustedY > maxY) {
+      return adjustedY < minY ? minY : maxY;
+    }
+    return adjustedY;
+  });
   return { x, y };
 }
 
