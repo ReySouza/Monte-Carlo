@@ -14,10 +14,20 @@ for (let i = 0; i < numLines; i++) {
   linePositions[i] = i * lineSpacing;
 }
 
-// Define the function to generate the points
+function gaussian(mu, sigma) {
+  const x = Math.random() * 2 - 1;
+  const y = Math.random() * 2 - 1;
+  const r = x * x + y * y;
+  if (r >= 1 || r === 0) {
+    return gaussian(mu, sigma);
+  }
+  const c = Math.sqrt((-2 * Math.log(r)) / r);
+  return mu + sigma * x * c;
+}
+
 function generatePoints(numPoints) {
-const x = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
-const y = Array.from({ length: numPoints }, () => Math.random() * Math.PI);
+  const x = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
+  const y = Array.from({ length: numPoints }, () => gaussian(gridSpacing / 2, gridSpacing / 6));
   return { x, y };
 }
 
