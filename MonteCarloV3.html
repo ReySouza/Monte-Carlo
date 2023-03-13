@@ -6,11 +6,15 @@
   <body>
     <div id="plot"></div>
     <script>
-      // Set up constants and variables
+    // Set up constants and variables
 const L = 2; // Length of needle
 const d = 3; // Distance between lines
-const numTrials = 10000; // Number of trials to run
+const numTrials = 10; // Number of trials to run
 let hits = 0; // Number of times needle crosses a line
+
+// Set up arrays for plot data
+const xCrossings = [];
+const yCrossings = [];
 
 // Run simulation
 for (let i = 0; i < numTrials; i++) {
@@ -21,6 +25,14 @@ for (let i = 0; i < numTrials; i++) {
   // Check if needle crosses a line
   if (x <= L / 2 * Math.sin(theta)) {
     hits++;
+
+    // Add data for plot
+    const x1 = x - L / 2 * Math.cos(theta);
+    const y1 = L / 2 * Math.sin(theta);
+    const x2 = x + L / 2 * Math.cos(theta);
+    const y2 = -L / 2 * Math.sin(theta);
+    xCrossings.push(x1, x2, null);
+    yCrossings.push(y1, y2, null);
   }
 }
 
@@ -28,10 +40,18 @@ for (let i = 0; i < numTrials; i++) {
 const piEstimate = 2 * L * numTrials / (d * hits);
 
 // Display results using Plotly
-const xData = [piEstimate];
-const yData = ['Estimate of pi'];
-const layout = { title: 'Buffon Needle Simulation Results', xaxis: { title: 'Estimate of pi' } };
-Plotly.newPlot('plot', [{ x: xData, y: yData, type: 'bar', orientation: 'h' }], layout);
+const layout = {
+  title: 'Buffon Needle Simulation Results',
+  xaxis: { title: 'x', range: [0, d / 2] },
+  yaxis: { title: 'y', range: [-L / 2, L / 2] }
+};
+const data = [{
+  x: xCrossings,
+  y: yCrossings,
+  mode: 'lines',
+  line: { color: 'red' },
+}];
+Plotly.newPlot('plot', data, layout);
     </script>
   </body>
 </html>
