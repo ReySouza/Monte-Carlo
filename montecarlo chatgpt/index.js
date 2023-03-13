@@ -13,16 +13,6 @@ for (let i = 0; i < numLines; i++) {
   linePositions[i] = i * lineSpacing;
 }
 
-  const x = Math.random() * 2 - 1;
-  const y = Math.random() * 2 - 1;
-  const r = x * x + y * y;
-  if (r >= 1 || r === 0) {
-    return gaussian(mu, sigma);
-  }
-  const c = Math.sqrt((-2 * Math.log(r)) / r);
-  return mu + sigma * x * c;
-}
-
 function generatePoints(numPoints) {
   const x = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
   const y = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
@@ -30,10 +20,11 @@ function generatePoints(numPoints) {
   return { x, y, angle };
 }
 
-// Define the function to count how many needles cross the lines
 function countCrossings(x, y) {
   const { numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices } = x.reduce(
     ({ numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices }, _, i) => {
+      const cosAngle = Math.cos(angle[i]);
+      const sinAngle = Math.sin(angle[i]);
       const crossing = linePositions.some((lineStart) => {
         const lineEnd = lineStart + needleLength;
         return y[i] >= lineStart && y[i] <= lineEnd;
@@ -46,19 +37,14 @@ function countCrossings(x, y) {
         colors.push("green");
         nonCrossingIndices.push(i);
       }
-      xs.push(x[i], x[i] + (needleLength / 2) * Math.cos(Math.PI * y[i] / gridSpacing));
-      ys.push(y[i], y[i] + (needleLength / 2) * Math.sin(Math.PI * y[i] / gridSpacing));
+      xs.push(x[i], x[i] + (needleLength / 2) * cosAngle);
+      ys.push(y[i], y[i] + (needleLength / 2) * sinAngle);
       return { numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices };
     },
     { numCrossings: 0, colors: [], xs: [], ys: [], crossingIndices: [], nonCrossingIndices: [] }
   );
   // Return the object with the properties numCrossings, colors, xs, and ys
   return { numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices };
-
-const cosAngle = Math.cos(angle[i]);
-const sinAngle = Math.sin(angle[i]);
-xs.push(x[i], x[i] + (needleLength / 2) * cosAngle);
-ys.push(y[i], y[i] + (needleLength / 2) * sinAngle);
 }
 
 // Generate the random points and count how many needles cross the lines
@@ -73,7 +59,7 @@ const lineData = linePositions.map((position) => {
     y: [position, position],
     mode: "lines",
     line: { width: lineWidth, color: "rgba(0, 0, 0, 0.7)" },
-    type: "scatter"
+    type: "scatter
   };
 });
 
