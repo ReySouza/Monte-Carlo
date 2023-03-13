@@ -1,8 +1,7 @@
 const needleLength = 0.25;
 const lineWidth = 0.3;
-const lineDistance = 0.5;
-const numPoints = 100000;
-const numLines = 10;
+const numPoints = 10000;
+const numLines = 20;
 
 // Define the distance between the lines
 const gridSpacing = 10;
