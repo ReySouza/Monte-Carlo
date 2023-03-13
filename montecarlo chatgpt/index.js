@@ -23,8 +23,8 @@ function generatePoints(numPoints) {
 
 // Define the function to count how many needles cross the lines
 function countCrossings(x, y) {
-  const { numCrossings, colors, xs, ys } = x.reduce(
-    ({ numCrossings, colors, xs, ys }, _, i) => {
+  const { numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices } = x.reduce(
+    ({ numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices }, _, i) => {
       const crossing = linePositions.some((lineStart) => {
         const lineEnd = lineStart + needleLength;
         return y[i] >= lineStart && y[i] <= lineEnd;
@@ -32,25 +32,27 @@ function countCrossings(x, y) {
       if (crossing) {
         colors.push("red");
         numCrossings++;
+        crossingIndices.push(i);
       } else {
         colors.push("green");
+        nonCrossingIndices.push(i);
       }
       xs.push(x[i], x[i] + (needleLength / 2) * Math.sin(Math.PI * y[i] / gridSpacing));
       ys.push(y[i], y[i] + (needleLength / 2) * Math.cos(Math.PI * y[i] / gridSpacing));
-      return { numCrossings, colors, xs, ys };
+      return { numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices };
     },
-    { numCrossings: 0, colors: [], xs: [], ys: [] }
+    { numCrossings: 0, colors: [], xs: [], ys: [], crossingIndices: [], nonCrossingIndices: [] }
   );
   // Return the object with the properties numCrossings, colors, xs, and ys
-  return { numCrossings, colors, xs, ys };
+  return { numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices };
 }
 
 // Generate the random points and count how many needles cross the lines
 const points = generatePoints(numPoints);
-const { numCrossings, colors, xs, ys } = countCrossings(points.x, points.y);
+const { numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices } = countCrossings(points.x, points.y);
 
 // Calculate the estimate for pi
-const piEstimate = (2 * numPoints) / (numCrossings * needleLength);
+const piEstimate = (2 * numPoints * needleLength) / (numCrossings * lineSpacing);
 
 // Define the data for the plot, including the lines
 const lineData = linePositions.map((position) => {
@@ -62,13 +64,22 @@ const lineData = linePositions.map((position) => {
     type: "scatter"
   };
 });
-const needleData = {
-  x: xs,
-  y: ys,
+const crossingNeedleData = {
+  x: crossingIndices.map(i => xs[i]),
+  y: crossingIndices.map(i => ys[i]),
   mode: "lines",
-  line: { width: lineWidth, color: colors },
+  line: { width: lineWidth, color: "red" },
   type: "scatter"
 };
+
+const noncrossingNeedleData = {
+  x: noncrossingIndices.map(i => xs[i]),
+  y: noncrossingIndices.map(i => ys[i]),
+  mode: "lines",
+  line: { width: lineWidth, color: "green" },
+  type: "scatter"
+};
+
 const data = [...lineData, needleData];
 
 // Define the layout for the plot
