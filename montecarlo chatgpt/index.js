@@ -2,7 +2,7 @@ const needleLength = 0.25;
 const lineWidth = 0.3;
 const lineDistance = 1;
 const numPoints = 100000;
-const numLines = 3;
+const numLines = 10;
 
 // Define the distance between the lines
 const gridSpacing = needleLength + (lineDistance * (numLines - 1));
@@ -69,18 +69,20 @@ const crossingNeedleData = {
   y: crossingIndices.map(i => ys[i]),
   mode: "lines",
   line: { width: lineWidth, color: "red" },
-  type: "scatter"
+  type: "scatter",
+  marker: {color: colors}
 };
 
-const noncrossingNeedleData = {
+const nonCrossingNeedleData = {
   x: nonCrossingIndices.map(i => xs[i]),
   y: nonCrossingIndices.map(i => ys[i]),
   mode: "lines",
-  line: { width: lineWidth, color: "blue" },
-  type: "scatter"
+  line: { width: lineWidth, color: "green" },
+  type: "scatter",
+  marker: {color: colors}
 };
 
-const data = [...lineData, crossingNeedleData]; // Changed needleData to crossingNeedleData
+const data = [...lineData, crossingNeedleData, nonCrossingNeedleData]; // Changed needleData to crossingNeedleData
 
 // Define the layout for the plot
 const layout = {
