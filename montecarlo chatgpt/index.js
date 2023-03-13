@@ -16,8 +16,8 @@ for (let i = 0; i < numLines; i++) {
 
 // Define the function to generate the points
 function generatePoints(numPoints) {
-  const x = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
-  const y = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
+const x = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
+const y = Array.from({ length: numPoints }, () => Math.random() * Math.PI);
   return { x, y };
 }
 
