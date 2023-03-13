@@ -80,7 +80,7 @@ const noncrossingNeedleData = {
   type: "scatter"
 };
 
-const data = [...lineData, needleData];
+const data = [...lineData, crossingNeedleData]; // Changed needleData to crossingNeedleData
 
 // Define the layout for the plot
 const layout = {
