@@ -26,11 +26,9 @@ function gaussian(mu, sigma) {
 
 function generatePoints(numPoints) {
   const x = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
-  const y = Array.from({ length: numPoints }, () => {
-    const lineMaxY = Math.max(...linePositions);
-    return gaussian(lineMaxY / 2, lineMaxY / 6);
-  });
-  return { x, y };
+  const y = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
+  const angle = Array.from({ length: numPoints }, () => Math.random() * Math.PI);
+  return { x, y, angle };
 }
 
 // Define the function to count how many needles cross the lines
@@ -57,6 +55,11 @@ function countCrossings(x, y) {
   );
   // Return the object with the properties numCrossings, colors, xs, and ys
   return { numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices };
+
+const cosAngle = Math.cos(angle[i]);
+const sinAngle = Math.sin(angle[i]);
+xs.push(x[i], x[i] + (needleLength / 2) * cosAngle);
+ys.push(y[i], y[i] + (needleLength / 2) * sinAngle);
 }
 
 // Generate the random points and count how many needles cross the lines
