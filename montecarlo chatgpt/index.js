@@ -59,10 +59,9 @@ const lineData = linePositions.map((position) => {
     y: [position, position],
     mode: "lines",
     line: { width: lineWidth, color: "rgba(0, 0, 0, 0.7)" },
-    type: "scatter
+    type: "scatter"
   };
 });
-
 const crossingNeedleData = {
   x: crossingIndices.map(i => xs[i]),
   y: crossingIndices.map(i => ys[i]),
