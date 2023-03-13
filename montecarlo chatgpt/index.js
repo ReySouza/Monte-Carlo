@@ -14,27 +14,26 @@ for (let i = 0; i < numLines; i++) {
   linePositions[i] = i * lineSpacing;
 }
 
-      function gaussian(mu, sigma) {
-        const x = Math.random() * 2 - 1;
-        const y = Math.random() * 2 - 1;
-        const r = x * x + y * y;
-        if (r >= 1 || r === 0) {
-          return gaussian(mu, sigma);
-        }
-        const c = Math.sqrt((-2 * Math.log(r)) / r);
-        return mu + sigma * x * c;
-      }
+function gaussian(mu, sigma) {
+  const x = Math.random() * 2 - 1;
+  const y = Math.random() * 2 - 1;
+  const r = x * x + y * y;
+  if (r >= 1 || r === 0) {
+    return gaussian(mu, sigma);
+  }
+  const c = Math.sqrt((-2 * Math.log(r)) / r);
+  return mu + sigma * x * c;
+}
 
-      function generatePoints(numPoints) {
-        const x = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
-        const y = Array.from({ length: numPoints }, () => {
-          const lineMaxY = Math.max(...linePositions);
-          return gaussian(lineMaxY / 2, lineMaxY / 6);
-        });
-        return { x, y };
-      }
+function generatePoints(numPoints) {
+  const x = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
+  const y = Array.from({ length: numPoints }, () => {
+    const lineMaxY = Math.max(...linePositions);
+    return gaussian(lineMaxY / 2, lineMaxY / 6);
+  });
+  return { x, y };
+}
 
-// Define the function to count how many needles cross the lines
 function countCrossings(x, y) {
   const { numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices } = x.reduce(
     ({ numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices }, _, i) => {
@@ -56,15 +55,12 @@ function countCrossings(x, y) {
     },
     { numCrossings: 0, colors: [], xs: [], ys: [], crossingIndices: [], nonCrossingIndices: [] }
   );
-  // Return the object with the properties numCrossings, colors, xs, and ys
   return { numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices };
 }
 
-// Generate the random points and count how many needles cross the lines
 const points = generatePoints(numPoints);
 const { numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices } = countCrossings(points.x, points.y);
 
-// Calculate the estimate for pi
 const piEstimate = (2 * numPoints * needleLength) / (numCrossings * lineSpacing);
 
 // Define the data for the plot, including the lines
@@ -73,10 +69,11 @@ const lineData = linePositions.map((position) => {
     x: [0, gridSpacing],
     y: [position, position],
     mode: "lines",
-    line: { width: lineWidth, color: "rgba(0, 0, 0, 0.7)" }, // increase opacity
+    line: { width: lineWidth, color: "rgba(0, 0, 0, 0.7)" },
     type: "scatter"
   };
 });
+
 const crossingNeedleData = {
   x: crossingIndices.map(i => xs[i]),
   y: crossingIndices.map(i => ys[i]),
