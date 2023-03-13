@@ -4,7 +4,7 @@ const numPoints = 10000;
 const numLines = 10;
 
 // Define the distance between the lines
-const gridSpacing = 50;
+const gridSpacing = 100;
 
 // Define the positions of the lines
 const linePositions = new Array(numLines);
