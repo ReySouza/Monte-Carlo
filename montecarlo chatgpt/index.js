@@ -17,7 +17,9 @@ function generatePoints(numPoints) {
   const x = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
   const y = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
   const angle = Array.from({ length: numPoints }, () => Math.random() * Math.PI);
-  return { x, y};
+  const cosAngle = angle.map(a => Math.cos(a));
+  const sinAngle = angle.map(a => Math.sin(a));
+  return { x, y, cosAngle, sinAngle };
 }
 
 function countCrossings(x, y) {
