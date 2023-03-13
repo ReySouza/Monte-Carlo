@@ -1,7 +1,7 @@
 const needleLength = 0.25;
 const lineWidth = 0.3;
 const lineDistance = 0.5;
-const numPoints = 50;
+const numPoints = 100000;
 const numLines = 10;
 
 // Define the distance between the lines
@@ -34,6 +34,7 @@ function generatePoints(numPoints) {
   return { x, y };
 }
 
+// Define the function to count how many needles cross the lines
 function countCrossings(x, y) {
   const { numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices } = x.reduce(
     ({ numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices }, _, i) => {
@@ -49,18 +50,19 @@ function countCrossings(x, y) {
         colors.push("green");
         nonCrossingIndices.push(i);
       }
-      xs.push(x[i], x[i] + (needleLength / 2) * Math.sin(Math.PI * y[i] / gridSpacing));
-      ys.push(y[i], y[i] + (needleLength / 2) * Math.cos(Math.PI * y[i] / gridSpacing));
+      xs.push(x[i], x[i] + (needleLength / 2) * Math.cos(Math.PI * y[i] / gridSpacing));
+      ys.push(y[i], y[i] + (needleLength / 2) * Math.sin(Math.PI * y[i] / gridSpacing));
       return { numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices };
     },
     { numCrossings: 0, colors: [], xs: [], ys: [], crossingIndices: [], nonCrossingIndices: [] }
   );
+  // Return the object with the properties numCrossings, colors, xs, and ys
   return { numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices };
 }
 
+// Generate the random points and count how many needles cross the lines
 const points = generatePoints(numPoints);
 const { numCrossings, colors, xs, ys, crossingIndices, nonCrossingIndices } = countCrossings(points.x, points.y);
-
 const piEstimate = (2 * numPoints * needleLength) / (numCrossings * lineSpacing);
 
 // Define the data for the plot, including the lines
