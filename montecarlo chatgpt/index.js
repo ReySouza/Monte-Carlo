@@ -14,7 +14,7 @@ for (let i = 0; i < numLines; i++) {
   linePositions[i] = i * lineSpacing;
 }
 
-function gaussian(mu, sigma) {
+      function gaussian(mu, sigma) {
         const x = Math.random() * 2 - 1;
         const y = Math.random() * 2 - 1;
         const r = x * x + y * y;
@@ -25,20 +25,14 @@ function gaussian(mu, sigma) {
         return mu + sigma * x * c;
       }
 
-function generatePoints(numPoints) {
-  const maxY = Math.max(...linePositions);
-  const x = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
-  const y = Array.from({ length: numPoints }, () => {
-    const adjustedY = gaussian(maxY / 2, maxY / 6);
-    const minY = Math.min(...linePositions);
-    const maxY = Math.max(...linePositions);
-    if (adjustedY < minY || adjustedY > maxY) {
-      return adjustedY < minY ? minY : maxY;
-    }
-    return adjustedY;
-  });
-  return { x, y };
-}
+      function generatePoints(numPoints) {
+        const x = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
+        const y = Array.from({ length: numPoints }, () => {
+          const lineMaxY = Math.max(...linePositions);
+          return gaussian(lineMaxY / 2, lineMaxY / 6);
+        });
+        return { x, y };
+      }
 
 // Define the function to count how many needles cross the lines
 function countCrossings(x, y) {
