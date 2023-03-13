@@ -13,23 +13,9 @@ for (let i = 0; i < numLines; i++) {
   linePositions[i] = i * lineSpacing;
 }
 
-function gaussian(mu, sigma) {
-  const x = Math.random() * 2 - 1;
-  const y = Math.random() * 2 - 1;
-  const r = x * x + y * y;
-  if (r >= 1 || r === 0) {
-    return gaussian(mu, sigma);
-  }
-  const c = Math.sqrt((-2 * Math.log(r)) / r);
-  return mu + sigma * x * c;
-}
-
 function generatePoints(numPoints) {
   const x = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
-  const y = Array.from({ length: numPoints }, () => {
-    const lineMaxY = Math.max(...linePositions);
-    return gaussian(lineMaxY / 2, lineMaxY / 6);
-  });
+  const y = Array.from({ length: numPoints }, () => Math.random() * gridSpacing);
   return { x, y };
 }
 
