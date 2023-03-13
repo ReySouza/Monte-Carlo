@@ -1,7 +1,7 @@
 const needleLength = 0.25;
 const lineWidth = 0.3;
 const lineDistance = 1;
-const numPoints = 1000;
+const numPoints = 100000;
 const numLines = 3;
 
 // Define the distance between the lines
@@ -60,7 +60,7 @@ const lineData = linePositions.map((position) => {
     x: [0, gridSpacing],
     y: [position, position],
     mode: "lines",
-    line: { width: lineWidth, color: "rgba(0, 0, 0, 0.5)" },
+    line: { width: lineWidth, color: "rgba(0, 0, 0, 0.7)" }, // increase opacity
     type: "scatter"
   };
 });
@@ -76,7 +76,7 @@ const noncrossingNeedleData = {
   x: nonCrossingIndices.map(i => xs[i]),
   y: nonCrossingIndices.map(i => ys[i]),
   mode: "lines",
-  line: { width: lineWidth, color: "green" },
+  line: { width: lineWidth, color: "blue" },
   type: "scatter"
 };
 
