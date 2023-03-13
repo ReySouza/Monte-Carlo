@@ -73,8 +73,8 @@ const crossingNeedleData = {
 };
 
 const noncrossingNeedleData = {
-  x: noncrossingIndices.map(i => xs[i]),
-  y: noncrossingIndices.map(i => ys[i]),
+  x: nonCrossingIndices.map(i => xs[i]),
+  y: nonCrossingIndices.map(i => ys[i]),
   mode: "lines",
   line: { width: lineWidth, color: "green" },
   type: "scatter"
