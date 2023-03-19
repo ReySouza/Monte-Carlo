@@ -27,7 +27,9 @@
       // Create a trace object for the circle
       const layout = {
         xaxis: { title: 'X Axis' },
-        yaxis: { title: 'Y Axis' }
+        yaxis: { title: 'Y Axis' },
+        aspectratio: { x: 1, y: 1 }, // enforce a square aspect ratio
+        showgrid: false // remove grid lines
       };
       
       const circle = {
