@@ -19,12 +19,13 @@
         const y = Array.from({ length: numPoints }, () => Math.random());
 
         const trace = {
-          x: x,
-          y: y,
+          x: [],
+          y: [],
           mode: 'markers',
           marker: {
             size: 3,
-            color: 'red'
+            color: [],
+            opacity: 1
           }
         };
 
@@ -41,7 +42,7 @@
             size: 200,
             sizemode: 'diameter',
             color: 'blue',
-            opacity: 0.5,
+            opacity: 0.1,
             symbol: 'circle'
           }
         };
@@ -51,7 +52,14 @@
           const dx = x[i] - 0.5;
           const dy = y[i] - 0.5;
           if (dx * dx + dy * dy <= 0.25) {
+            trace.x.push(x[i]);
+            trace.y.push(y[i]);
+            trace.marker.color.push('blue');
             numPointsInCircle++;
+          } else {
+            trace.x.push(x[i]);
+            trace.y.push(y[i]);
+            trace.marker.color.push('red');
           }
         }
 
