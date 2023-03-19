@@ -22,8 +22,21 @@
         }
       };
 
-      // Create the data array containing the trace object
-      const data = [trace];
+      // Create a trace object for the circle
+      const circle = {
+        x: [0.5],
+        y: [0.5],
+        mode: 'markers',
+        marker: {
+          size: 100,
+          color: 'blue',
+          opacity: 0.5,
+          symbol: 'circle'
+        }
+      };
+
+      // Create the data array containing both trace objects
+      const data = [trace, circle];
 
       // Define the layout for the plot
       const layout = {
