@@ -7,9 +7,9 @@
   <body>
     <div id="myPlot"></div>
     <script>
-      // Generate random x and y coordinates
-      const x = [Math.random()];
-      const y = [Math.random()];
+      // Generate 100 random x and y coordinates
+      const x = Array.from({ length: 100 }, () => Math.random());
+      const y = Array.from({ length: 100 }, () => Math.random());
 
       // Create a trace object for the scatter plot
       const trace = {
