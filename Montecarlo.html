@@ -23,32 +23,41 @@
         }
       };
 
-const circle = {
-  x: [0.5],
-  y: [0.5],
-  mode: 'markers',
-  marker: {
-    size: 10,
-    sizemode: 'diameter',
-    color: 'blue',
-    opacity: 0.5,
-    symbol: 'circle'
-  }
-};
+      // Create a trace object for the circle
+      const circle = {
+        x: [0.5],
+        y: [0.5],
+        mode: 'markers',
+        marker: {
+          size: 2,
+          sizemode: 'diameter',
+          color: 'blue',
+          opacity: 0.5,
+          symbol: 'circle'
+        }
+      };
+
+          // Count the number of points inside the circle
+      const r = circle.marker.size / 2; // radius of the circle in plot units
+      const numInside = x.filter((xVal, i) => {
+        const dx = xVal - circle.x[0];
+        const dy = y[i] - circle.y[0];
+        const d = Math.sqrt(dx*dx + dy*dy);
+        return d <= r;
+      }).length;
+
+      // Display the counts
+      const numTotal = x.length;
+      const numPointsElem = document.getElementById('numPoints');
+      numPointsElem.innerHTML = `Points inside circle: ${numInside} / Total points: ${numTotal}`;
 
       // Create the data array containing both trace objects
       const data = [trace, circle];
 
       // Define the layout for the plot
       const layout = {
-        xaxis: {
-          title: 'X Axis',
-          range: [0, 1]
-        },
-        yaxis: {
-          title: 'Y Axis',
-          range: [0, 1]
-        }
+        xaxis: { title: 'X Axis' },
+        yaxis: { title: 'Y Axis' }
       };
 
       // Render the plot using Plotly.js
