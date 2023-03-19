@@ -5,58 +5,68 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   </head>
   <body>
+    <div>
+      <label for="numPointsInput">Número de pontos:</label>
+      <input type="number" id="numPointsInput" value="10000" />
+      <button type="button" id="runSimulationButton">Executar simulação</button>
+    </div>
     <div id="myPlot"></div>
     <div id="pi"></div>
     <script>
-      const numPoints = 10000;
-      const x = Array.from({ length: numPoints }, () => Math.random());
-      const y = Array.from({ length: numPoints }, () => Math.random());
+      function runSimulation() {
+        const numPoints = parseInt(document.getElementById('numPointsInput').value);
+        const x = Array.from({ length: numPoints }, () => Math.random());
+        const y = Array.from({ length: numPoints }, () => Math.random());
 
-      const trace = {
-        x: x,
-        y: y,
-        mode: 'markers',
-        marker: {
-          size: 3,
-          color: 'red'
-        }
-      };
+        const trace = {
+          x: x,
+          y: y,
+          mode: 'markers',
+          marker: {
+            size: 3,
+            color: 'red'
+          }
+        };
 
-      const layout = {
-        xaxis: { title: 'Eixo X' },
-        yaxis: { title: 'Eixo Y' }
-      };
-      
-      const circle = {
-        x: [0.5],
-        y: [0.5],
-        mode: 'markers',
-        marker: {
-          size: 200,
-          sizemode: 'diameter',
-          color: 'blue',
-          opacity: 0.5,
-          symbol: 'circle'
-        }
-      };
+        const layout = {
+          xaxis: { title: 'Eixo X' },
+          yaxis: { title: 'Eixo Y' }
+        };
+        
+        const circle = {
+          x: [0.5],
+          y: [0.5],
+          mode: 'markers',
+          marker: {
+            size: 200,
+            sizemode: 'diameter',
+            color: 'blue',
+            opacity: 0.5,
+            symbol: 'circle'
+          }
+        };
 
-      let numPointsInCircle = 0;
-      for (let i = 0; i < numPoints; i++) {
-        const dx = x[i] - 0.5;
-        const dy = y[i] - 0.5;
-        if (dx * dx + dy * dy <= 0.25) {
-          numPointsInCircle++;
+        let numPointsInCircle = 0;
+        for (let i = 0; i < numPoints; i++) {
+          const dx = x[i] - 0.5;
+          const dy = y[i] - 0.5;
+          if (dx * dx + dy * dy <= 0.25) {
+            numPointsInCircle++;
+          }
         }
+
+        const piApprox = 4 * numPointsInCircle / numPoints;
+
+        const piElement = document.getElementById('pi');
+        piElement.innerHTML = `Aproximação de Pi: ${piApprox}`;
+
+        const data = [trace, circle];
+
+        Plotly.newPlot('myPlot', data, layout);
       }
 
-      const piApprox = 4 * numPointsInCircle / numPoints;
-
-      const piElement = document.getElementById('pi');
-      piElement.innerHTML = `Aproximação de Pi: ${piApprox}`;
-
-      const data = [trace, circle];
-
-      Plotly.newPlot('myPlot', data, layout);
+      const runSimulationButton = document.getElementById('runSimulationButton');
+      runSimulationButton.addEventListener('click', runSimulation);
     </script>
   </body>
 </html>
