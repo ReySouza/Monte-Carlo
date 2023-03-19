@@ -37,13 +37,12 @@
       };
 
 // Count the number of points inside the circle
-// Count the number of points inside the circle
-const numPointsInCircle = x.filter((val, idx) => {
+const numPointsInCircle = x.reduce((count, val, idx) => {
   const dx = val - circle.x[0];
   const dy = y[idx] - circle.y[0];
   const distance = Math.sqrt(dx * dx + dy * dy);
-  return distance <= circle.marker.size / 2;
-}).length;
+  return distance <= circle.marker.size / 2 ? count + 1 : count;
+}, 0);
 
 // Display the number of points inside the circle and the total number of points
 const numTotalPoints = x.length;
