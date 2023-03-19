@@ -28,19 +28,12 @@
         yaxis: { title: 'Y Axis' }
       };
       
-      // Get the size and center of the circle
-      const width = layout.width || 500;
-      const height = layout.height || 500;
-      const circleSize = Math.min(width, height) * 0.4;
-      const circleX = layout.xaxis.range[0] + (layout.xaxis.range[1] - layout.xaxis.range[0]) / 2;
-      const circleY = layout.yaxis.range[0] + (layout.yaxis.range[1] - layout.yaxis.range[0]) / 2;
-      
       const circle = {
-        x: [circleX],
-        y: [circleY],
+        x: [0.5],
+        y: [0.5],
         mode: 'markers',
         marker: {
-          size: circleSize,
+          size: 200,
           sizemode: 'diameter',
           color: 'blue',
           opacity: 0.5,
