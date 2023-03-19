@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Plotly.js Scatter Plot</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  </head>
+  <body>
+    <div id="myPlot"></div>
+    <script>
+      // Generate random x and y coordinates
+      const x = [Math.random()];
+      const y = [Math.random()];
+
+      // Create a trace object for the scatter plot
+      const trace = {
+        x: x,
+        y: y,
+        mode: 'markers',
+        marker: {
+          size: 10,
+          color: 'red'
+        }
+      };
+
+      // Create the data array containing the trace object
+      const data = [trace];
+
+      // Define the layout for the plot
+      const layout = {
+        xaxis: { title: 'X Axis' },
+        yaxis: { title: 'Y Axis' }
+      };
+
+      // Render the plot using Plotly.js
+      Plotly.newPlot('myPlot', data, layout);
+    </script>
+  </body>
+</html>
