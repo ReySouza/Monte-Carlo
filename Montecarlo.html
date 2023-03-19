@@ -6,60 +6,54 @@
   </head>
   <body>
     <div>
-      <label for="numPointsInput">Número de pontos:</label>
-      <input type="number" id="numPointsInput" value="10000" />
-      <button type="button" id="runSimulationButton">Executar simulação</button>
+      <label for="numPoints">Número de pontos:</label>
+      <input type="number" id="numPoints" name="numPoints" min="1" value="10000">
+      <button id="startButton">Iniciar</button>
     </div>
     <div id="myPlot"></div>
     <div id="pi"></div>
     <script>
-      function runSimulation() {
-        const numPoints = parseInt(document.getElementById('numPointsInput').value);
+      const layout = {
+        xaxis: { title: 'Eixo X' },
+        yaxis: { title: 'Eixo Y' }
+      };
+
+      const circle = {
+        x: [0.5],
+        y: [0.5],
+        mode: 'markers',
+        marker: {
+          size: 200,
+          sizemode: 'diameter',
+          color: 'blue',
+          opacity: 0.1,
+          symbol: 'circle'
+        }
+      };
+
+      const startButton = document.getElementById('startButton');
+      startButton.addEventListener('click', () => {
+        const numPoints = parseInt(document.getElementById('numPoints').value);
+
         const x = Array.from({ length: numPoints }, () => Math.random());
         const y = Array.from({ length: numPoints }, () => Math.random());
 
-        const trace = {
-          x: [],
-          y: [],
-          mode: 'markers',
-          marker: {
-            size: 3,
-            color: [],
-            opacity: 1
-          }
-        };
-
-        const layout = {
-          xaxis: { title: 'Eixo X' },
-          yaxis: { title: 'Eixo Y' }
-        };
-        
-        const circle = {
-          x: [0.5],
-          y: [0.5],
-          mode: 'markers',
-          marker: {
-            size: 200,
-            sizemode: 'diameter',
-            color: 'blue',
-            opacity: 0.1,
-            symbol: 'circle'
-          }
-        };
+        let xInCircle = [];
+        let yInCircle = [];
+        let xOutCircle = [];
+        let yOutCircle = [];
 
         let numPointsInCircle = 0;
         for (let i = 0; i < numPoints; i++) {
           const dx = x[i] - 0.5;
           const dy = y[i] - 0.5;
           if (dx * dx + dy * dy <= 0.25) {
-            trace.x.push(x[i]);
-            trace.y.push(y[i]);
-            trace.marker.color.push('blue');
             numPointsInCircle++;
+            xInCircle.push(x[i]);
+            yInCircle.push(y[i]);
           } else {
-            trace.x.push(x[i]);
-            trace.y.push(y[i]);
-            trace.marker.color.push('red');
+            xOutCircle.push(x[i]);
+            yOutCircle.push(y[i]);
           }
         }
 
@@ -68,13 +62,30 @@
         const piElement = document.getElementById('pi');
         piElement.innerHTML = `Aproximação de Pi: ${piApprox}`;
 
-        const data = [trace, circle];
+        const trace = {
+          x: xOutCircle,
+          y: yOutCircle,
+          mode: 'markers',
+          marker: {
+            size: 3,
+            color: 'red'
+          }
+        };
+
+        const traceInCircle = {
+          x: xInCircle,
+          y: yInCircle,
+          mode: 'markers',
+          marker: {
+            size: 3,
+            color: 'blue'
+          }
+        };
+
+        const data = [trace, traceInCircle, circle];
 
         Plotly.newPlot('myPlot', data, layout);
-      }
-
-      const runSimulationButton = document.getElementById('runSimulationButton');
-      runSimulationButton.addEventListener('click', runSimulation);
+      });
     </script>
   </body>
 </html>
