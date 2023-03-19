@@ -23,18 +23,20 @@
         }
       };
 
-      // Create a trace object for the circle
-      const circle = {
-        x: [0.5],
-        y: [0.5],
-        mode: 'markers',
-        marker: {
-          size: 200,
-          color: 'blue',
-          opacity: 0.5,
-          symbol: 'circle'
-        }
-      };
+// Create a trace object for the circle
+const circle = {
+  x: [0.5],
+  y: [0.5],
+  mode: 'markers',
+  marker: {
+    size: 200,
+    color: 'blue',
+    opacity: 0.5,
+    symbol: 'circle'
+  },
+  xaxis: 'x',
+  yaxis: 'y'
+};
 
       // Create the data array containing both trace objects
       const data = [trace, circle];
