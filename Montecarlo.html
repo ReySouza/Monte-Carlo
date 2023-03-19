@@ -9,7 +9,7 @@
     <div id="pi"></div>
     <script>
       // Generate 1000 random x and y coordinates
-      const numPoints = 100000;
+      const numPoints = 1000;
       const x = Array.from({ length: numPoints }, () => Math.random());
       const y = Array.from({ length: numPoints }, () => Math.random());
 
@@ -38,7 +38,7 @@
           size: 200,
           sizemode: 'diameter',
           color: 'blue',
-          opacity: 0.5,
+          opacity: 0.2, // Set opacity to 0.2
           symbol: 'circle'
         }
       };
@@ -49,6 +49,8 @@
         const dx = x[i] - 0.5;
         const dy = y[i] - 0.5;
         if (dx * dx + dy * dy <= 0.25) {
+          // Set the color of points within the circle to blue
+          trace.marker.color[i] = 'blue';
           numPointsInCircle++;
         }
       }
