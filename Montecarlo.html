@@ -38,22 +38,23 @@
           size: 200,
           sizemode: 'diameter',
           color: 'blue',
-          opacity: 0.2, // Set opacity to 0.2
+          opacity: 0.2,
           symbol: 'circle'
         }
       };
 
       // Count the number of points that fall within the circle
       let numPointsInCircle = 0;
+      const colors = Array.from({ length: numPoints }, () => 'red'); // initialize all colors to red
       for (let i = 0; i < numPoints; i++) {
         const dx = x[i] - 0.5;
         const dy = y[i] - 0.5;
         if (dx * dx + dy * dy <= 0.25) {
-          // Set the color of points within the circle to blue
-          trace.marker.color[i] = 'blue';
+          colors[i] = 'blue'; // set the color of points within the circle to blue
           numPointsInCircle++;
         }
       }
+      trace.marker.color = colors; // update the color property of the trace object
 
       // Calculate an approximation of pi using the Monte Carlo method
       const piApprox = 4 * numPointsInCircle / numPoints;
