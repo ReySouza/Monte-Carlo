@@ -6,10 +6,12 @@
   </head>
   <body>
     <div id="myPlot"></div>
+    <div id="pi"></div>
     <script>
-      // Generate 100 random x and y coordinates
-      const x = Array.from({ length: 100 }, () => Math.random());
-      const y = Array.from({ length: 100 }, () => Math.random());
+      // Generate 1000 random x and y coordinates
+      const numPoints = 1000;
+      const x = Array.from({ length: numPoints }, () => Math.random());
+      const y = Array.from({ length: numPoints }, () => Math.random());
 
       // Create a trace object for the scatter plot
       const trace = {
@@ -40,6 +42,23 @@
           symbol: 'circle'
         }
       };
+
+      // Count the number of points that fall within the circle
+      let numPointsInCircle = 0;
+      for (let i = 0; i < numPoints; i++) {
+        const dx = x[i] - 0.5;
+        const dy = y[i] - 0.5;
+        if (dx * dx + dy * dy <= 0.25) {
+          numPointsInCircle++;
+        }
+      }
+
+      // Calculate an approximation of pi using the Monte Carlo method
+      const piApprox = 4 * numPointsInCircle / numPoints;
+
+      // Display the approximation of pi
+      const piElement = document.getElementById('pi');
+      piElement.innerHTML = `Approximation of pi: ${piApprox}`;
 
       // Create the data array containing both trace objects
       const data = [trace, circle];
