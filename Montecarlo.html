@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>My Plotly.js Scatter Plot</title>
+    <title>Experimento de MonteCarlo</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   </head>
   <body>
     <div id="myPlot"></div>
     <div id="pi"></div>
     <script>
-      // Generate 1000 random x and y coordinates
-      const numPoints = 1000;
+      const numPoints = 10000;
       const x = Array.from({ length: numPoints }, () => Math.random());
       const y = Array.from({ length: numPoints }, () => Math.random());
 
-      // Create a trace object for the scatter plot
       const trace = {
         x: x,
         y: y,
@@ -24,12 +22,9 @@
         }
       };
 
-      // Create a trace object for the circle
       const layout = {
-        xaxis: { title: 'X Axis' },
-        yaxis: { title: 'Y Axis' },
-        aspectratio: { x: 1, y: 1 }, // enforce a square aspect ratio
-        showgrid: false // remove grid lines
+        xaxis: { title: 'Eixo X' },
+        yaxis: { title: 'Eixo Y' }
       };
       
       const circle = {
@@ -40,35 +35,27 @@
           size: 200,
           sizemode: 'diameter',
           color: 'blue',
-          opacity: 0.2,
+          opacity: 0.5,
           symbol: 'circle'
         }
       };
 
-      // Count the number of points that fall within the circle
       let numPointsInCircle = 0;
-      const colors = Array.from({ length: numPoints }, () => 'red'); // initialize all colors to red
       for (let i = 0; i < numPoints; i++) {
         const dx = x[i] - 0.5;
         const dy = y[i] - 0.5;
         if (dx * dx + dy * dy <= 0.25) {
-          colors[i] = 'blue'; // set the color of points within the circle to blue
           numPointsInCircle++;
         }
       }
-      trace.marker.color = colors; // update the color property of the trace object
 
-      // Calculate an approximation of pi using the Monte Carlo method
       const piApprox = 4 * numPointsInCircle / numPoints;
 
-      // Display the approximation of pi
       const piElement = document.getElementById('pi');
       piElement.innerHTML = `Approximation of pi: ${piApprox}`;
 
-      // Create the data array containing both trace objects
       const data = [trace, circle];
 
-      // Render the plot using Plotly.js
       Plotly.newPlot('myPlot', data, layout);
     </script>
   </body>
