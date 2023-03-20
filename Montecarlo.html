@@ -7,41 +7,21 @@
   <body>
     <div>
       <label for="numPoints">Número de pontos:</label>
-      <input type="number" id="numPoints" name="numPoints" min="1" value="10000">
+      <input type="number" id="numPoints" value="10000">
       <button id="startButton">Iniciar</button>
     </div>
     <div id="myPlot"></div>
     <div id="pi"></div>
     <script>
-      const layout = {
-        xaxis: { title: 'Eixo X' },
-        yaxis: { title: 'Eixo Y' }
-      };
-
-      const circle = {
-        x: [0.5],
-        y: [0.5],
-        mode: 'markers',
-        marker: {
-          size: 200,
-          sizemode: 'diameter',
-          color: 'blue',
-          opacity: 0.1,
-          symbol: 'circle'
-        }
-      };
-
       const startButton = document.getElementById('startButton');
       startButton.addEventListener('click', () => {
-        const numPoints = parseInt(document.getElementById('numPoints').value);
+        const numPoints = document.getElementById('numPoints').value;
+        simulateMonteCarlo(numPoints);
+      });
 
+      function simulateMonteCarlo(numPoints) {
         const x = Array.from({ length: numPoints }, () => Math.random());
         const y = Array.from({ length: numPoints }, () => Math.random());
-
-        let xInCircle = [];
-        let yInCircle = [];
-        let xOutCircle = [];
-        let yOutCircle = [];
 
         let numPointsInCircle = 0;
         for (let i = 0; i < numPoints; i++) {
@@ -49,11 +29,6 @@
           const dy = y[i] - 0.5;
           if (dx * dx + dy * dy <= 0.25) {
             numPointsInCircle++;
-            xInCircle.push(x[i]);
-            yInCircle.push(y[i]);
-          } else {
-            xOutCircle.push(x[i]);
-            yOutCircle.push(y[i]);
           }
         }
 
@@ -63,29 +38,26 @@
         piElement.innerHTML = `Aproximação de Pi: ${piApprox}`;
 
         const trace = {
-          x: xOutCircle,
-          y: yOutCircle,
+          x: x,
+          y: y,
           mode: 'markers',
           marker: {
             size: 3,
-            color: 'red'
+            color: y.map((yi, i) => (x[i] - 0.5) ** 2 + (yi - 0.5) ** 2 <= 0.25 ? 'blue' : 'red'),
+            opacity: 0.7
           }
         };
 
-        const traceInCircle = {
-          x: xInCircle,
-          y: yInCircle,
-          mode: 'markers',
-          marker: {
-            size: 3,
-            color: 'blue'
-          }
+        const layout = {
+          xaxis: { title: 'Eixo X', range: [0, 1] },
+          yaxis: { title: 'Eixo Y', range: [0, 1] },
+          aspectratio: { x: 1, y: 1 }
         };
 
-        const data = [trace, traceInCircle, circle];
+        const data = [trace];
 
         Plotly.newPlot('myPlot', data, layout);
-      });
+      }
     </script>
   </body>
 </html>
