@@ -1,4 +1,26 @@
-const numPoints = 10000;
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Experimento de MonteCarlo</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  </head>
+  <body>
+    <div>
+      <label for="numPoints">Número de pontos:</label>
+      <input type="number" id="numPoints" value="10000">
+      <button id="startButton">Iniciar</button>
+    </div>
+    <div id="myPlot"></div>
+    <div id="pi"></div>
+    <script>
+      const startButton = document.getElementById('startButton');
+      startButton.addEventListener('click', () => {
+        const numPoints = document.getElementById('numPoints').value;
+        simulateMonteCarlo(numPoints);
+      });
+
+      function simulateMonteCarlo(numPoints) {
+   const numPoints = 10000;
 const x = Array.from({ length: numPoints }, () => Math.random());
 const y = Array.from({ length: numPoints }, () => Math.random());
 
@@ -60,3 +82,7 @@ piElement.innerHTML = `Aproximação de Pi: ${piApprox}`;
 const data = [trace];
 
 Plotly.newPlot('myPlot', data, layout);
+}
+    </script>
+  </body>
+</html>
