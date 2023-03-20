@@ -48,11 +48,14 @@
           }
         };
 
-        const layout = {
-          xaxis: { title: 'Eixo X', range: [0, 1] },
-          yaxis: { title: 'Eixo Y', range: [0, 1] },
-          aspectratio: { x: 1, y: 1 }
-        };
+const layout = {
+  xaxis: { title: 'Eixo X', range: [0, 1] },
+  yaxis: { title: 'Eixo Y', range: [0, 1] },
+  aspectratio: {x:1, y:1},
+  margin: {t:30},
+  height: 600,
+  width: 600
+};
 
         const data = [trace];
 
