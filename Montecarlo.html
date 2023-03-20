@@ -33,21 +33,13 @@
               const dx = xi - 0.5;
               const dy = y[i] - 0.5;
               if (dx * dx + dy * dy <= 0.25) {
-                return 'blue';
-              } else if (dx > 0.25 && dx < 0.35 && dy > -0.05 && dy < 0.05) {
-                return 'red';
-              } else if (dx > 0.15 && dx < 0.25 && dy > -0.05 && dy < 0.05) {
-                return 'red';
-              } else if (dx > 0.05 && dx < 0.15 && dy > -0.05 && dy < 0.05) {
-                return 'red';
-              } else if (dx > -0.05 && dx < 0.05 && dy > -0.05 && dy < 0.05) {
-                return 'red';
-              } else if (dx > -0.15 && dx < -0.05 && dy > -0.05 && dy < 0.05) {
-                return 'red';
-              } else if (dx > -0.25 && dx < -0.15 && dy > -0.05 && dy < 0.05) {
-                return 'red';
-              } else if (dx > -0.35 && dx < -0.25 && dy > -0.05 && dy < 0.05) {
-                return 'red';
+                const angle = Math.atan2(dy, dx);
+                const section = Math.floor((angle + Math.PI) / (Math.PI / 4));
+                if (section === 0 || section === 1) {
+                  return 'blue';
+                } else {
+                  return 'black';
+                }
               } else {
                 return 'black';
               }
@@ -64,24 +56,24 @@
           width: 600
         };
 
-let numPointsInCircle = 0;
-for (let i = 0; i < numPoints; i++) {
-  const dx = x[i] - 0.5;
-  const dy = y[i] - 0.5;
-  if (dx * dx + dy * dy <= 0.25) {
-    numPointsInCircle++;
-  }
-}
+        let numPointsInCircle = 0;
+        for (let i = 0; i < numPoints; i++) {
+          const dx = x[i] - 0.5;
+          const dy = y[i] - 0.5;
+          if (dx * dx + dy * dy <= 0.25) {
+            numPointsInCircle++;
+          }
+        }
 
-const piApprox = 4 * numPointsInCircle / numPoints;
+        const piApprox = 4 * numPointsInCircle / numPoints;
 
-const piElement = document.getElementById('pi');
-piElement.innerHTML = `Aproximação de Pi: ${piApprox}`;
+        const piElement = document.getElementById('pi');
+        piElement.innerHTML = `Aproximação de Pi: ${piApprox}`;
 
-const data = [trace];
+        const data = [trace];
 
-Plotly.newPlot('myPlot', data, layout);
-}
+        Plotly.newPlot('myPlot', data, layout);
+      }
     </script>
   </body>
 </html>
