@@ -23,39 +23,6 @@
         const x = Array.from({ length: numPoints }, () => Math.random());
         const y = Array.from({ length: numPoints }, () => Math.random());
 
-        const trace = {
-          x: x,
-          y: y,
-          mode: 'markers',
-          marker: {
-            size: 3,
-            color: x.map((xi, i) => {
-              const dx = xi - 0.5;
-              const dy = y[i] - 0.5;
-              if (dx * dx + dy * dy <= 0.25) {
-                const angle = Math.atan2(dy, dx);
-                const section = Math.floor((angle + Math.PI) / (Math.PI / 4));
-                if (section === 0 || section === 1) {
-                  return 'blue';
-                } else {
-                  return 'black';
-                }
-              } else {
-                return 'black';
-              }
-            })
-          }
-        };
-
-        const layout = {
-          xaxis: { title: 'Eixo X', range: [0, 1] },
-          yaxis: { title: 'Eixo Y', range: [0, 1] },
-          aspectratio: {x:1, y:1},
-          margin: {t:30},
-          height: 600,
-          width: 600
-        };
-
         let numPointsInCircle = 0;
         for (let i = 0; i < numPoints; i++) {
           const dx = x[i] - 0.5;
@@ -69,6 +36,25 @@
 
         const piElement = document.getElementById('pi');
         piElement.innerHTML = `Aproximação de Pi: ${piApprox}`;
+
+        const trace = {
+          x: x,
+          y: y,
+          mode: 'markers',
+          marker: {
+            size: 3,
+            color: y.map((yi, i) => (x[i] - 0.5) ** 2 + (yi - 0.5) ** 2 <= 0.25 ? 'blue' : 'red'),
+            opacity: 0.7
+          }
+        };
+const layout = {
+  xaxis: { title: 'Eixo X', range: [0, 1] },
+  yaxis: { title: 'Eixo Y', range: [0, 1] },
+  aspectratio: {x:1, y:1},
+  margin: {t:30},
+  height: 600,
+  width: 600
+};
 
         const data = [trace];
 
