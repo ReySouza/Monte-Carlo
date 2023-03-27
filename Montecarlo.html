@@ -68,7 +68,7 @@ startButton.addEventListener('click', () => {
 });
 
 function simulateMonteCarlo(numPoints, animationSpeed) {
-  const numPointsPerFrame = Math.max(1, Math.floor(numPoints / 10));
+  const numPointsPerFrame = Math.max(10, Math.floor(numPoints / 10));
   const x = Array.from({ length: numPoints }, () => Math.random());
   const y = Array.from({ length: numPoints }, () => Math.random());
 
