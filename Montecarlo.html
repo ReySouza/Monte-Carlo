@@ -12,8 +12,53 @@
       <input type="range" min="1" max="100" value="50" class="slider" id="animationSpeed">
       <button id="startButton">Iniciar</button>
     </div>
+    <div id="container">
+  <div id="plot-container">
     <div id="myPlot"></div>
-    <div id="pi"></div>
+  </div>
+  <div id="explanation-container">
+    <div id="explanation">
+      <h2>Experimento de Monte Carlo</h2>
+      <p>O método de Monte Carlo é uma técnica estatística utilizada para aproximar soluções de problemas matemáticos complexos. Este experimento utiliza o método de Monte Carlo para aproximar o valor de π a partir da geração aleatória de pontos dentro de um círculo inscrito em um quadrado. Quanto mais pontos são gerados, mais precisa é a aproximação de π.</p>
+    </div>
+  </div>
+</div>
+<div id="pi"></div>
+<style>
+  #container {
+  display: flex;
+}
+
+#plot-container {
+  width: 70%;
+}
+
+#explanation-container {
+  width: 30%;
+}
+
+#myPlot {
+  width: 100%;
+  height: 100%;
+}
+
+#explanation {
+  padding: 20px;
+  background-color: #f1f1f1;
+  height: 100%;
+}
+
+@media screen and (max-width: 600px) {
+  #container {
+    flex-direction: column;
+  }
+
+  #plot-container,
+  #explanation-container {
+    width: 100%;
+  }
+}
+</style>
     <script>
       const startButton = document.getElementById('startButton');
       startButton.addEventListener('click', () => {
@@ -35,7 +80,7 @@
             const piApprox = 4 * numPointsInCircle / numPoints;
 
             const piElement = document.getElementById('pi');
-            piElement.innerHTML = `Aproximação de Pi: ${piApprox.toFixed(6)}`;
+            piElement.innerHTML = `Aproximação de Pi: ${piApprox.toFixed(10)}`;
             return;
           }
 
@@ -57,24 +102,21 @@
           };
           data.push(trace);
 
-          const layout = {
-            xaxis: { title: 'Eixo X', range: [0, 1] },
-            yaxis: { title: 'Eixo Y', range: [0, 1] },
-            aspectratio: {x:1, y:1},
-            margin: {t:30},
-            height: 600,
-            width: 600
-          };
+         const layout = {
+  xaxis: { title: 'Eixo X', range: [0, 1] },
+  yaxis: { title: 'Eixo Y', range: [0, 1] },
+  aspectratio: {x:1, y:1},
+  margin: {t:30},
+  height: 600,
+  width: 600,
+  showlegend: false,
+};
 
           Plotly.newPlot('myPlot', data, layout);
           pointsPlaced++;
-        }, 1000 / animationSpeed );
+        }, 1000 / (animationSpeed*100);
 }
 </script>
 
   </body>
 </html>
-
-
-
-
