@@ -9,63 +9,71 @@
       <label for="numPoints">Número de pontos:</label>
       <input type="number" id="numPoints" value="10000">
       <label for="animationSpeed">Velocidade da animação:</label>
-      <input type="range" min="1" max="10" value="5" class="slider" id="animationSpeed">
+      <input type="range" min="1" max="100" value="50" class="slider" id="animationSpeed">
       <button id="startButton">Iniciar</button>
+      <button id="stopButton">Desativar Animação</button>
     </div>
     <div id="container">
-  <div id="plot-container">
-    <div id="myPlot"></div>
-  </div>
-  <div id="explanation-container">
-    <div id="explanation">
-      <h2>Experimento de Monte Carlo</h2>
-      <p>O método de Monte Carlo é uma técnica estatística utilizada para aproximar soluções de problemas matemáticos complexos. Este experimento utiliza o método de Monte Carlo para aproximar o valor de π a partir da geração aleatória de pontos dentro de um círculo inscrito em um quadrado. Quanto mais pontos são gerados, mais precisa é a aproximação de π.</p>
+      <div id="plot-container">
+        <div id="myPlot"></div>
+      </div>
+      <div id="explanation-container">
+        <div id="explanation">
+          <h2>Experimento de Monte Carlo</h2>
+          <p>O método de Monte Carlo é uma técnica estatística utilizada para aproximar soluções de problemas matemáticos complexos. Este experimento utiliza o método de Monte Carlo para aproximar o valor de π a partir da geração aleatória de pontos dentro de um círculo inscrito em um quadrado. Quanto mais pontos são gerados, mais precisa é a aproximação de π.</p>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div id="pi"></div>
-<style>
-  #container {
-  display: flex;
-}
+    <div id="pi"></div>
+    <style>
+      #container {
+        display: flex;
+      }
 
-#plot-container {
-  width: 70%;
-}
+      #plot-container {
+        width: 70%;
+      }
 
-#explanation-container {
-  width: 30%;
-}
+      #explanation-container {
+        width: 30%;
+      }
 
-#myPlot {
-  width: 100%;
-  height: 100%;
-}
+      #myPlot {
+        width: 100%;
+        height: 100%;
+      }
 
-#explanation {
-  padding: 20px;
-  background-color: #f1f1f1;
-  height: 100%;
-}
+      #explanation {
+        padding: 20px;
+        background-color: #f1f1f1;
+        height: 100%;
+      }
 
-@media screen and (max-width: 600px) {
-  #container {
-    flex-direction: column;
-  }
+      @media screen and (max-width: 600px) {
+        #container {
+          flex-direction: column;
+        }
 
-  #plot-container,
-  #explanation-container {
-    width: 100%;
-  }
-}
-</style>
+        #plot-container,
+        #explanation-container {
+          width: 100%;
+        }
+      }
+    </style>
     <script>
-     const startButton = document.getElementById('startButton');
+const startButton = document.getElementById('startButton');
 startButton.addEventListener('click', () => {
   const numPoints = document.getElementById('numPoints').value;
   const animationSpeed = document.getElementById('animationSpeed').value;
   simulateMonteCarlo(numPoints, animationSpeed);
 });
+
+const stopButton = document.getElementById('stopButton');
+stopButton.addEventListener('click', () => {
+  clearInterval(interval);
+});
+
+let interval; // Declare the interval variable outside of the simulateMonteCarlo function
 
 function simulateMonteCarlo(numPoints, animationSpeed) {
   const numPointsPerFrame = Math.max(10, Math.floor(numPoints / 10));
@@ -75,7 +83,7 @@ function simulateMonteCarlo(numPoints, animationSpeed) {
   let numPointsInCircle = 0;
   let pointsPlaced = 0;
   let data = [];
-  let interval = setInterval(() => {
+  interval = setInterval(() => { // Assign the interval variable inside the function to make it accessible from the stopButton event listener
     const numPointsThisFrame = Math.min(numPointsPerFrame, numPoints - pointsPlaced);
     for (let i = 0; i < numPointsThisFrame; i++) {
       const dx = x[pointsPlaced + i] - 0.5;
