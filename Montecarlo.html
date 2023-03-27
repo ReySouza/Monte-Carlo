@@ -111,7 +111,7 @@ function simulateMonteCarlo(numPoints, animationSpeed) {
       clearInterval(interval);
       const piApprox = 4 * numPointsInCircle / numPoints;
       const piElement = document.getElementById('pi');
-      piElement.innerHTML = `Aproximação de Pi: ${piApprox.toFixed(10)}`;
+      piElement.innerHTML = `Aproximação de Pi: ${piApprox.toFixed(4)}`;
     }
   }, 1000 / animationSpeed);
 }
