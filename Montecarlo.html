@@ -67,55 +67,63 @@
         simulateMonteCarlo(numPoints, animationSpeed);
       });
 
-      function simulateMonteCarlo(numPoints, animationSpeed) {
-        const x = Array.from({ length: numPoints }, () => Math.random());
-        const y = Array.from({ length: numPoints }, () => Math.random());
+function simulateMonteCarlo(numPoints, animationSpeed) {
+  const x = Array.from({ length: numPoints }, () => Math.random());
+  const y = Array.from({ length: numPoints }, () => Math.random());
 
-        let numPointsInCircle = 0;
-        let pointsPlaced = 0;
-        let data = [];
-        let interval = setInterval(() => {
-          if (pointsPlaced >= numPoints) {
-            clearInterval(interval);
-            const piApprox = 4 * numPointsInCircle / numPoints;
+  let numPointsInCircle = 0;
+  let pointsPlaced = 0;
+  let data = [{
+    x: [],
+    y: [],
+    mode: 'markers',
+    marker: {
+      size: 3,
+      color: 'red',
+      opacity: 0.7
+    }
+  }];
 
-            const piElement = document.getElementById('pi');
-            piElement.innerHTML = `Aproximação de Pi: ${piApprox.toFixed(10)}`;
-            return;
-          }
+  const plotOptions = {
+    xaxis: { title: 'Eixo X', range: [0, 1] },
+    yaxis: { title: 'Eixo Y', range: [0, 1] },
+    aspectratio: {x:1, y:1},
+    margin: {t:30},
+    height: 600,
+    width: 600,
+    showlegend: false,
+  };
 
-          const dx = x[pointsPlaced] - 0.5;
-          const dy = y[pointsPlaced] - 0.5;
-          if (dx * dx + dy * dy <= 0.25) {
-            numPointsInCircle++;
-          }
+  Plotly.newPlot('myPlot', data, plotOptions);
 
-          const trace = {
-            x: [x[pointsPlaced]],
-            y: [y[pointsPlaced]],
-            mode: 'markers',
-            marker: {
-              size: 3,
-              color: dx * dx + dy * dy <= 0.25 ? 'blue' : 'red',
-              opacity: 0.7
-            }
-          };
-          data.push(trace);
+  let interval = setInterval(() => {
+    if (pointsPlaced >= numPoints) {
+      clearInterval(interval);
+      const piApprox = 4 * numPointsInCircle / numPoints;
 
-         const layout = {
-  xaxis: { title: 'Eixo X', range: [0, 1] },
-  yaxis: { title: 'Eixo Y', range: [0, 1] },
-  aspectratio: {x:1, y:1},
-  margin: {t:30},
-  height: 600,
-  width: 600,
-  showlegend: false,
-};
+      const piElement = document.getElementById('pi');
+      piElement.innerHTML = `Aproximação de Pi: ${piApprox.toFixed(10)}`;
+      return;
+    }
 
-          Plotly.newPlot('myPlot', data, layout);
-          pointsPlaced++;
-        }, 1000 / (animationSpeed*10000));
+    const dx = x[pointsPlaced] - 0.5;
+    const dy = y[pointsPlaced] - 0.5;
+    if (dx * dx + dy * dy <= 0.25) {
+      numPointsInCircle++;
+      data[0].marker.color = 'blue';
+    } else {
+      data[0].marker.color = 'red';
+    }
+
+    Plotly.extendTraces('myPlot', {
+      x: [[x[pointsPlaced]]],
+      y: [[y[pointsPlaced]]]
+    }, [0]);
+
+    pointsPlaced++;
+  }, 1000 / (animationSpeed*10000));
 }
+
 </script>
 
   </body>
