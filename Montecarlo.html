@@ -60,14 +60,15 @@
 }
 </style>
     <script>
-      const startButton = document.getElementById('startButton');
-      startButton.addEventListener('click', () => {
-        const numPoints = document.getElementById('numPoints').value;
-        const animationSpeed = document.getElementById('animationSpeed').value;
-        simulateMonteCarlo(numPoints, animationSpeed);
-      });
+     const startButton = document.getElementById('startButton');
+startButton.addEventListener('click', () => {
+  const numPoints = document.getElementById('numPoints').value;
+  const animationSpeed = document.getElementById('animationSpeed').value;
+  simulateMonteCarlo(numPoints, animationSpeed);
+});
 
 function simulateMonteCarlo(numPoints, animationSpeed) {
+  const numPointsPerFrame = Math.max(1, Math.floor(numPoints / 10));
   const x = Array.from({ length: numPoints }, () => Math.random());
   const y = Array.from({ length: numPoints }, () => Math.random());
 
@@ -75,25 +76,16 @@ function simulateMonteCarlo(numPoints, animationSpeed) {
   let pointsPlaced = 0;
   let data = [];
   let interval = setInterval(() => {
-    if (pointsPlaced >= numPoints) {
-      clearInterval(interval);
-      const piApprox = 4 * numPointsInCircle / numPoints;
-
-      const piElement = document.getElementById('pi');
-      piElement.innerHTML = `Aproximação de Pi: ${piApprox.toFixed(10)}`;
-      return;
-    }
-
-    for (let i = 0; i < 10 && pointsPlaced < numPoints; i++) {
-      const dx = x[pointsPlaced] - 0.5;
-      const dy = y[pointsPlaced] - 0.5;
+    const numPointsThisFrame = Math.min(numPointsPerFrame, numPoints - pointsPlaced);
+    for (let i = 0; i < numPointsThisFrame; i++) {
+      const dx = x[pointsPlaced + i] - 0.5;
+      const dy = y[pointsPlaced + i] - 0.5;
       if (dx * dx + dy * dy <= 0.25) {
         numPointsInCircle++;
       }
-
       const trace = {
-        x: [x[pointsPlaced]],
-        y: [y[pointsPlaced]],
+        x: [x[pointsPlaced + i]],
+        y: [y[pointsPlaced + i]],
         mode: 'markers',
         marker: {
           size: 3,
@@ -102,21 +94,26 @@ function simulateMonteCarlo(numPoints, animationSpeed) {
         }
       };
       data.push(trace);
-      pointsPlaced++;
     }
-
     const layout = {
       xaxis: { title: 'Eixo X', range: [0, 1] },
       yaxis: { title: 'Eixo Y', range: [0, 1] },
-      aspectratio: { x: 1, y: 1 },
-      margin: { t: 30 },
+      aspectratio: {x:1, y:1},
+      margin: {t:30},
       height: 600,
       width: 600,
       showlegend: false,
     };
-
     Plotly.newPlot('myPlot', data, layout);
-  }, 1000 / (animationSpeed * 100));
+
+    pointsPlaced += numPointsThisFrame;
+    if (pointsPlaced >= numPoints) {
+      clearInterval(interval);
+      const piApprox = 4 * numPointsInCircle / numPoints;
+      const piElement = document.getElementById('pi');
+      piElement.innerHTML = `Aproximação de Pi: ${piApprox.toFixed(10)}`;
+    }
+  }, 1000 / animationSpeed);
 }
 </script>
 
